@@ -1,0 +1,23 @@
+doctype html
+html
+  head
+    title  Nueva encuesta
+  body
+  form( action = "/newPoll", method = "post" )
+    div
+      label( for = "question" ) Pregunta:
+      input( type= "text" name= "question" id="question" )
+    br
+    div
+      label( for = "description" ) Descripción:
+      input( type= "text" name= "description" id="description")
+    br
+    div
+      label( for = "choiceOne" ) Opcion 1:
+      input( type= "text" name= "choiceOne" id="choiceOne")
+    br
+    div
+      label( for = "choiceTwo" ) Opcion 2:
+      input( type= "text" name= "choiceTwo" id="choiceTwo" )
+    br
+    button( type = "submit" ) Crear encuesta!

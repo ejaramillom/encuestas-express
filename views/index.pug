@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    title  Encuestas
+  body
+    div
+      a( href= '/logout' ) Salir
+      |
+      |
+      table( class= 'table' )
+        thead
+          tr
+            th Question
+            th Description
+        tbody
+          each val in polls
+            tr
+              td= val.question
+              td= val.description
