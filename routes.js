@@ -1,23 +1,21 @@
 const mongoose = require( 'mongoose' );
+const jwt = require( 'jsonwebtoken' );
 const User = require( './models/user' );
 const Poll = require( './models/poll' );
 const PollSchema = require( './models/poll' ).PollSchema;
 const express = require( 'express' );
 const router = express.Router();
-const requireUser = async ( req, res, next ) => {
-  const userId = req.session.userId;
-  if ( userId ) {
-    const user = await User.findOne({ _id: userId });
-    res.locals.user = user;
-    next();
-  } else {
-    return res.redirect( '/login' );
-  }
-}
+const auth = require( './helpers/auth' );
+router.use( auth.setUser );
 
-router.get( '/', requireUser, async ( req, res ) => {
+router.get( '/', auth.requireUser, async ( req, res ) => {
   const polls = await Poll.find();
   res.render( 'index', { polls: polls });
+});
+
+router.get( '/newPoll', auth.requireUser, async ( req, res ) => {
+  const newPoll = await Poll.find({ user: res.locals.user });
+	res.render( "newPoll" , { newPoll } )
 });
 
 router.get( '/register', ( req, res ) => {
@@ -41,10 +39,6 @@ router.post( '/register', async ( req, res ) => {
     console.error( e );
   }
   res.redirect( '/' );
-});
-
-router.get( '/newPoll', ( req, res ) => {
-  res.render( 'newPoll' );
 });
 
 router.post( '/newPoll', async ( req, res ) => {
@@ -76,25 +70,28 @@ router.get( '/login', ( req, res ) => {
   res.render( 'login' );
 });
 
-router.post( '/login', async function( req, res ) {
+router.post( '/login', async ( req, res, next ) => {
   const email = req.body.email;
   const password = req.body.password;
 
   try {
     const user = await User.authenticate( email, password );
     if ( user ) {
-      req.session.userId = user._id;
+      const token = jwt.sign({ userId: user._id }, 'secretcode' );
+      res.cookie( 'token', token, { expires: new Date( Date.now() + 24*60*60*1000 ), httpOnly: true });
       return res.redirect( '/' );
     } else {
-      res.render( 'login', { error: 'Email incorrecto! intenta de nuevo' });
+      res.render( 'login', { error: 'Correo o constraseña incorrecto. Intentalo de nuevo!' });
     }
   } catch ( e ) {
     return next( e );
   }
 });
 
-router.get( '/logout', ( req, res ) => {
+router.get( '/logout', auth.requireUser, ( req, res ) => {
   res.clearCookie( 'token' );
+  res.clearCookie( 'session' );
+	res.clearCookie( 'session.sig' );
   res.redirect( '/login' );
 });
 
