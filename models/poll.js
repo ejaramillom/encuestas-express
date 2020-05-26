@@ -19,11 +19,11 @@ const PollSchema = mongoose.Schema({
 	choices: [ ChoiceSchema ]
 })
 
-PollSchema.methods.truncateBody = function() {
-  if (this.body && this.body.length > 150) {
-    return this.body.substring(0, 70) + ' ...';
+PollSchema.methods.truncateDescription = function() {
+  if (this.description && this.description.length > 150) {
+    return this.description.substring(0, 70) + ' ...';
   }
-  return this.body;
+  return this.description;
 };
 
 module.exports = mongoose.model( 'Poll', PollSchema );

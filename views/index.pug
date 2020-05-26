@@ -1,20 +1,22 @@
-doctype html
-html
-  head
-    title  Encuestas
-  body
-    div
-      a( href= '/logout' ) Salir
-      a( href= '/newPoll' ) Crear encuesta 
-      |
-      |
-      table( class= 'table' )
-        thead
-          tr
-            th Question
-            th Description
-        tbody
-          each val in polls
-            tr
-              td= val.question
-              td= val.description
+extends layout
+
+block content
+  div( class = 'container expand' )
+    div( class = 'list expand' )
+      div( class = 'list-header' )
+        a( href = '/newPoll' )
+          i( class = 'far fa-sticky-note' )
+          |
+          | Nueva Encuesta
+          |
+        a( href = '/logout' )
+          i( class = 'far fa-sticky-note' )
+          |
+          | Salir
+          |
+      each poll in polls
+        a( href = '/' + poll._id class = 'poll' + ( currentPoll && currentPoll._id.equals( poll._id ) ? ' active' : ''))
+          div( class = 'poll-question' )= poll.question
+          div( class = 'poll-description' )= poll.truncateDescription()
+    div( class = 'body' )
+      block body

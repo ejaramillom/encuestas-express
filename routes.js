@@ -8,7 +8,7 @@ const router = express.Router();
 const auth = require( './helpers/auth' );
 router.use( auth.setUser );
 
-router.get( '/', auth.requireUser, async ( req, res ) => {
+router.get( '/', async ( req, res ) => {
   const polls = await Poll.find();
   res.render( 'index', { polls: polls });
 });
@@ -70,6 +70,12 @@ router.get( '/login', ( req, res ) => {
   res.render( 'login' );
 });
 
+router.get( '/:id', async (req, res) => {
+  const polls = await Poll.find();
+  const poll = await Poll.findById( req.params.id );
+  res.render( 'showPoll', { polls: polls, currentPoll: poll });
+});
+
 router.post( '/login', async ( req, res, next ) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -88,11 +94,16 @@ router.post( '/login', async ( req, res, next ) => {
   }
 });
 
+router.delete( '/:id', async ( req, res ) => {
+  await Poll.deleteOne({ _id: req.params.id });
+  res.status( 204 ).send({});
+});
+
 router.get( '/logout', auth.requireUser, ( req, res ) => {
   res.clearCookie( 'token' );
   res.clearCookie( 'session' );
 	res.clearCookie( 'session.sig' );
-  res.redirect( '/login' );
+  res.redirect( '/' );
 });
 
 module.exports = router;

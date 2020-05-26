@@ -1,0 +1,152 @@
+* { box-sizing: border-box; }
+
+body {
+  background: #343438;
+  color: #cccccf;
+  font-family: "Ubuntu", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.expand { height: 100%; }
+
+a {
+  color: #47bded;
+  text-decoration: none;
+}
+
+.container { display: flex; }
+
+.list {
+  width: 400px;
+  border-right: 2px solid #292929;
+  max-height: 100%;
+  overflow-y: scroll;
+}
+
+.list-header {
+  font-size: 0.95rem;
+  text-align: right;
+}
+
+.list-header, .poll {
+  padding: 15px;
+  border-bottom: 2px solid #292929;
+}
+
+.poll { display: block; }
+
+.poll.active {
+  background: #26262a;
+}
+
+.poll .poll-question { margin-bottom: 5px; }
+
+.poll .poll-description {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.body {
+  position: relative;
+  width: 100%;
+  padding-bottom: 80px;
+  max-height: 100%;
+  overflow-y: scroll;
+}
+
+.body .body-actions {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+}
+
+.body .body-actions a {
+  font-size: 18px;
+  padding: 15px;
+}
+
+.body .body-content {
+  min-width: 600px;
+  max-width: 800px;
+  padding: 30px 60px;
+}
+
+.body .body-question {
+  color: #47bded;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.body .body-description { line-height: 1.6; }
+
+.body .body-description h1,
+.body .body-description h2,
+.body .body-description h3,
+.body .body-description h4,
+.body .body-description h5,
+.body .body-description h6 {
+  color: #47bded;
+  margin: 1em 0 0.4em;
+}
+
+.body .body-description h1 { font-size: 1.4rem; }
+.body .body-description h2 { font-size: 1.3rem; }
+.body .body-description h3 { font-size: 1.2rem; }
+.body .body-description h4 { font-size: 1.1rem; }
+.body .body-description h5 { font-size: 1rem; }
+.body .body-description h6 { font-size: 0.9rem; }
+
+.body .body-description p { margin-bottom: 1rem; }
+
+.poll-form-page {
+  width: 100%;
+  padding: 30px 60px;
+}
+
+.poll-form-page form {
+  width: 100%;
+}
+
+.poll-form-page input[ type = "text" ], .poll-form-page textarea {
+  background: rgba(0, 0, 0, 0);
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+.poll-form-page #question {
+  color: #47bded;
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+}
+
+.poll-form-page #body {
+  color: #ccc;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.poll-form-page .form-actions {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: right;
+  margin-top: 45px;
+  border-top: 2px solid #292929;
+  padding: 10px 20px 15px;
+}
+
+.poll-form-page .form-actions .btn {
+  background: #666;
+  color: white;
+  font-size: 0.95rem;
+  padding: 10px 20px;
+  border: none;
+  margin: 5px;
+}
+
+.poll-form-page .form-actions .btn.btn-primary { background-color: #47bded; }

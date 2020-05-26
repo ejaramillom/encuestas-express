@@ -1,8 +1,6 @@
-doctype html
-html
-  head
-    title  Nueva encuesta
-  body
+extends layout
+
+block content
   form( action = "/newPoll", method = "post" )
     div
       label( for = "question" ) Pregunta:

@@ -1,8 +1,6 @@
-doctype html
-html
-  head
-    title  Formulario de registro
-  body
+extends layout
+
+block content
   form( action = "/login", method = "post" )
     div
       label( for= "email" ) Email:
