@@ -123,7 +123,7 @@ a {
   margin-bottom: 20px;
 }
 
-.poll-form-page #body {
+.poll-form-page #description {
   color: #ccc;
   font-size: 1rem;
   line-height: 1.6;
@@ -150,3 +150,44 @@ a {
 }
 
 .poll-form-page .form-actions .btn.btn-primary { background-color: #47bded; }
+
+form {
+  padding: 20px;
+  width: 350px;
+}
+
+form .error {
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+  font-size: 14px;
+  padding: 15px;
+  margin-bottom: 25px;
+}
+
+form .form-group { margin-bottom: 15px; }
+
+form .form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+form .form-group input {
+  width: 100%;
+  padding: 8px 12px;
+}
+
+form .form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+form .form-actions button {
+  background: #135db2;
+  color: white;
+  font-size: 14px;
+  padding: 8px 15px;
+  border: none;
+}

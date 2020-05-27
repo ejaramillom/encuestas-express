@@ -1,26 +1,27 @@
 extends index
 
 block body
-  div( class = "body-actions" )
-    a( href = `/${ currentPoll._id }/edit` )
-      i( class = "far fa-edit" )
-    a( href = `/${ currentPoll._id }/delete`, class = "btn-delete" )
-      i( class = "far fa-trash-alt" )
+  div( class = 'body-actions' )
+    a( href = `/polls/${ currentPoll._id }/edit` )
+      i( class = 'far fa-edit' )
+    a( href = `/polls/${ currentPoll._id }/delete`, class = 'btn-delete' )
+      i( class = 'far fa-trash-alt' )
 
-  div( class = "body-content" )
-    h1( class = "body-question" )= currentPoll.question
-    div( class = "body-description" ) !{ currentPoll.description || "" }
+  div( class = 'body-content' )
+    h1( class = 'body-question' )= currentPoll.question
+    div( class = 'body-description' ) !{ currentPoll.description || '' }
+    div( class = 'body-description' )= 'Creado por ' + currentPoll.user.email 
 
   script.
-    var btnDelete = document.querySelector( ".btn-delete" );
-    btnDelete.addEventListener( "click", function( e ) {
+    var btnDelete = document.querySelector( '.btn-delete' );
+    btnDelete.addEventListener( 'click', function( e ) {
       e.preventDefault();
 
-      if ( confirm( "Está seguro de borrar la encuesta?" )) {
-        fetch( "/#{ currentPoll._id }", {
-          method: "DELETE"
+      if ( confirm( 'Está seguro de borrar la encuesta?' )) {
+        fetch( '/polls/#{ currentPoll._id }', {
+          method: 'DELETE'
         }).then( response => {
-          window.location = "/";
+          window.location = '/';
         });
       }
     });

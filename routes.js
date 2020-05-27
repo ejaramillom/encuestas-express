@@ -1,11 +1,11 @@
-const mongoose = require( 'mongoose' );
 const jwt = require( 'jsonwebtoken' );
+const mongoose = require( 'mongoose' );
 const User = require( './models/user' );
 const Poll = require( './models/poll' );
-const PollSchema = require( './models/poll' ).PollSchema;
 const express = require( 'express' );
-const router = express.Router();
 const auth = require( './helpers/auth' );
+const router = express.Router();
+
 router.use( auth.setUser );
 
 router.get( '/', async ( req, res ) => {
@@ -13,13 +13,13 @@ router.get( '/', async ( req, res ) => {
   res.render( 'index', { polls: polls });
 });
 
-router.get( '/newPoll', auth.requireUser, async ( req, res ) => {
-  const newPoll = await Poll.find({ user: res.locals.user });
-	res.render( "newPoll" , { newPoll } )
-});
-
 router.get( '/register', ( req, res ) => {
   res.render( 'newUser' );
+});
+
+router.get( '/newPoll', auth.requireUser, async ( req, res ) => {
+  const newPoll = await Poll.find({ user: res.locals.user });
+	res.render( 'newPoll' , { newPoll } )
 });
 
 router.post( '/register', async ( req, res ) => {
@@ -46,6 +46,7 @@ router.post( '/newPoll', async ( req, res ) => {
   const description = req.body.description;
   const choiceOne = req.body.choiceOne;
   const choiceTwo = req.body.choiceTwo;
+  const choiceThree = req.body.choiceThree;
   const user = res.locals.user;
 
   const data = {
@@ -53,9 +54,10 @@ router.post( '/newPoll', async ( req, res ) => {
     description: description,
     choices: {
       choiceOne,
-      choiceTwo
+      choiceTwo,
+      choiceThree
     },
-    user: user
+    user: user,
   };
 
   try {
@@ -70,10 +72,27 @@ router.get( '/login', ( req, res ) => {
   res.render( 'login' );
 });
 
-router.get( '/:id', async (req, res) => {
+router.get( '/polls/:id', async (req, res) => {
   const polls = await Poll.find();
   const poll = await Poll.findById( req.params.id );
   res.render( 'showPoll', { polls: polls, currentPoll: poll });
+});
+
+// router.get("/poll/:id/edit", async (req, res, next) => {
+//   const polls = await Poll.find();
+//   const poll =  await Poll.findById(req.params.id);
+//   res.render( "editPoll", { polls: polls, currentPoll: poll });
+// });
+
+router.get( '/polls/:id/edit', async (req, res, next) => {
+  try {
+   const polls = await Poll.find();
+   const poll = await Poll.findById( req.params.id );
+   res.render( 'editPoll', { polls: polls, currentPoll: poll } )
+  }
+  catch ( e ) {
+    return next( e );
+  }
 });
 
 router.post( '/login', async ( req, res, next ) => {
@@ -94,16 +113,30 @@ router.post( '/login', async ( req, res, next ) => {
   }
 });
 
-router.delete( '/:id', async ( req, res ) => {
+router.patch( '/polls/:id', async ( req, res ) => {
+  const id = req.params.id;
+  const poll = await Poll.findById( id );
+
+  poll.question = req.body.question;
+  poll.description = req.body.description;
+
+  try {
+    await poll.save();
+  } catch ( e ) {
+    return next( e );
+  }
+
+  res.status(204).send({});
+});
+
+router.delete( '/polls/:id', async ( req, res ) => {
   await Poll.deleteOne({ _id: req.params.id });
   res.status( 204 ).send({});
 });
 
 router.get( '/logout', auth.requireUser, ( req, res ) => {
   res.clearCookie( 'token' );
-  res.clearCookie( 'session' );
-	res.clearCookie( 'session.sig' );
-  res.redirect( '/' );
+  res.redirect( '/login' );
 });
 
 module.exports = router;

@@ -1,0 +1,42 @@
+extends index
+
+block body
+  div(class='poll-form-page')
+    form(action=`/polls/${currentPoll._id}`, method='patch')
+      div
+        input(type='text', id='question', name='question', value=currentPoll.question placeholder='Escribe el título', autocomplete='off' autofocus)
+      div
+        textarea(id='description', name='description', rows='8', placeholder='Escribe el texto ...')= currentPoll.description
+
+      div(class='form-actions')
+        a(href=`/polls/${currentPoll._id}`, class='btn') Cancelar
+        button(type='submit', class='btn btn-primary') Actualizar
+
+  script.
+    var textarea = document.getElementById('body');
+    var heightLimit = 'innerHeight' in window  ? window.innerHeight : document.documentElement.offsetHeight;
+    heightLimit -= 180;
+
+    function adjustHeight() {
+      textarea.style.height = ''; // Reset the height
+      textarea.style.height = Math.min(textarea.scrollHeight, heightLimit) + 'px';
+    }
+
+    textarea.oninput = adjustHeight;
+    adjustHeight();
+
+    var form = document.querySelector('form');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      var question = document.querySelector('#question').value
+      var description = document.querySelector('#description').value
+
+      fetch('/polls/#{currentPoll._id}', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `question=${question}&description=${description}`
+      }).then(response => {
+        window.location= '/polls/#{currentPoll._id}';
+      });
+    });

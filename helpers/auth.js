@@ -8,7 +8,7 @@ exports.setUser = async ( req, res, next ) => {
     try {
       const decoded = jwt.verify( token, 'secretcode' );
       const user = await User.findById( decoded.userId );
-      if (!user) {
+      if ( !user ) {
         res.clearCookie( 'token' );
       } else {
         res.locals.user = user;
