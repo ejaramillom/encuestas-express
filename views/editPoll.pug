@@ -9,7 +9,10 @@ block body
         textarea( id = 'description', name = 'description', rows = '8', placeholder = 'Escribe el texto ...' )= currentPoll.description
       div
         input( type = 'text', id = 'choiceOne', name = 'choiceOne', value = currentPoll.options[0].text, placeholder = 'Escribe la opción', autocomplete = 'off', autofocus)
-
+      div
+        input( type = 'text', id = 'choiceTwo', name = 'choiceTwo', value = currentPoll.options[1].text, placeholder = 'Escribe la opción', autocomplete = 'off', autofocus)
+      div
+        input( type = 'text', id = 'choiceThree', name = 'choiceThree', value = currentPoll.options[2].text, placeholder = 'Escribe la opción', autocomplete = 'off', autofocus)
 
       div( class = 'form-actions')
         a( href = `/polls/${currentPoll._id}`, class = 'btn' ) Cancelar

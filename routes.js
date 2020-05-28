@@ -78,12 +78,6 @@ router.get( '/polls/:id', async (req, res) => {
   res.render( 'showPoll', { polls: polls, currentPoll: poll });
 });
 
-// router.get("/poll/:id/edit", async (req, res, next) => {
-//   const polls = await Poll.find();
-//   const poll =  await Poll.findById(req.params.id);
-//   res.render( "editPoll", { polls: polls, currentPoll: poll });
-// });
-
 router.get( '/polls/:id/edit', async (req, res, next) => {
   try {
    const polls = await Poll.find();

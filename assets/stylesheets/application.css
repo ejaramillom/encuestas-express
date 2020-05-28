@@ -123,6 +123,12 @@ a {
   margin-bottom: 20px;
 }
 
+.poll-form-page #choiceOne, #choiceTwo, #choiceThree {
+  color: #f6f3ee;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
 .poll-form-page #description {
   color: #ccc;
   font-size: 1rem;
