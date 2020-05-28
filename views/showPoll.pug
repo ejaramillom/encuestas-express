@@ -11,7 +11,7 @@ block body
   div( class = 'body-content' )
     h1( class = 'body-question' )= currentPoll.question
     div( class = 'body-description' ) !{ currentPoll.description || '' }
-    div( class = 'body-description' )= 'Creado por ' + currentPoll.user.email
+    div( class = 'body-description' ) Creado por #{ currentPoll.user.email }
 
   form( action=`/polls/${currentPoll._id}/vote`, method = 'post' )
     each option in currentPoll.options

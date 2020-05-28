@@ -2,7 +2,8 @@ const express = require( 'express' );
 const cookieParser = require( 'cookie-parser' );
 const mongoose = require( 'mongoose' );
 const path = require( 'path' );
-require( './models/user' );
+const User = require( './models/User' );
+const Poll = require( './models/Poll' );
 const routes = require( './routes' );
 
 mongoose.connect( process.env.MONGODB_URL || 'mongodb://localhost:27017/encuestas', { useNewUrlParser: true } );

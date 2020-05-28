@@ -1,25 +1,37 @@
 const jwt = require( 'jsonwebtoken' );
 const mongoose = require( 'mongoose' );
-const User = require( './models/user' );
-const Poll = require( './models/poll' );
+const User = require( './models/User' );
+const Poll = require( './models/Poll' );
 const express = require( 'express' );
 const auth = require( './helpers/auth' );
 const router = express.Router();
 
 router.use( auth.setUser );
 
-router.get( '/', async ( req, res ) => {
-  const polls = await Poll.find();
-  res.render( 'index', { polls: polls });
+router.get( '/login', ( req, res ) => {
+  res.render( 'login' );
+});
+
+router.post( '/login', async ( req, res, next ) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  try {
+    const user = await User.authenticate( email, password );
+    if ( user ) {
+      const token = jwt.sign({ userId: user._id }, 'secretcode' );
+      res.cookie( 'token', token, { expires: new Date( Date.now() + 24*60*60*1000 ), httpOnly: true });
+      return res.redirect( '/' );
+    } else {
+      res.render( 'login', { error: 'Correo o constraseña incorrecto. Intentalo de nuevo!' });
+    }
+  } catch ( e ) {
+    return next( e );
+  }
 });
 
 router.get( '/register', ( req, res ) => {
   res.render( 'newUser' );
-});
-
-router.get( '/newPoll', auth.requireUser, async ( req, res ) => {
-  const newPoll = await Poll.find({ user: res.locals.user });
-	res.render( 'newPoll' , { newPoll } )
 });
 
 router.post( '/register', async ( req, res ) => {
@@ -41,6 +53,20 @@ router.post( '/register', async ( req, res ) => {
   res.redirect( '/' );
 });
 
+router.get( '/', async ( req, res, next ) => {
+  try {
+    const polls = await Poll.find().populate( 'User' );
+    res.render( 'index', { polls: polls });
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.get( '/newPoll', auth.requireUser, async ( req, res ) => {
+  const newPoll = await Poll.find({ user: res.locals.user });
+	res.render( 'newPoll' , { newPoll } )
+});
+
 router.post( '/newPoll', async ( req, res ) => {
   const question = req.body.question;
   const description = req.body.description;
@@ -52,7 +78,7 @@ router.post( '/newPoll', async ( req, res ) => {
   const data = {
     question: question,
     description: description,
-    user: user,
+    user: user._id,
     options: [
           { text: choiceOne },
           { text: choiceTwo },
@@ -61,20 +87,16 @@ router.post( '/newPoll', async ( req, res ) => {
   };
 
   try {
-    const poll = await Poll.create( data );
+    const poll = await Poll.create( data ).populate( 'user' );
   } catch ( e ) {
     console.error( e );
   }
   res.redirect( '/' );
 });
 
-router.get( '/login', ( req, res ) => {
-  res.render( 'login' );
-});
-
 router.get( '/polls/:id', async (req, res) => {
-  const polls = await Poll.find();
-  const poll = await Poll.findById( req.params.id );
+  const polls = await Poll.find().populate( 'user' );
+  const poll = await Poll.findById( req.params.id ).populate( 'user' );
   res.render( 'showPoll', { polls: polls, currentPoll: poll });
 });
 
@@ -85,24 +107,6 @@ router.get( '/polls/:id/edit', async (req, res, next) => {
    res.render( 'editPoll', { polls: polls, currentPoll: poll } )
   }
   catch ( e ) {
-    return next( e );
-  }
-});
-
-router.post( '/login', async ( req, res, next ) => {
-  const email = req.body.email;
-  const password = req.body.password;
-
-  try {
-    const user = await User.authenticate( email, password );
-    if ( user ) {
-      const token = jwt.sign({ userId: user._id }, 'secretcode' );
-      res.cookie( 'token', token, { expires: new Date( Date.now() + 24*60*60*1000 ), httpOnly: true });
-      return res.redirect( '/' );
-    } else {
-      res.render( 'login', { error: 'Correo o constraseña incorrecto. Intentalo de nuevo!' });
-    }
-  } catch ( e ) {
     return next( e );
   }
 });

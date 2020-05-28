@@ -1,12 +1,11 @@
 const mongoose = require('mongoose');
 
-
 const pollSchema = mongoose.Schema({
   question: String,
   description: String,
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
+    ref: 'User'
   },
   options: [{
     text: String,
@@ -27,4 +26,4 @@ pollSchema.methods.truncateDescription = function() {
   return this.description;
 };
 
-module.exports = mongoose.model('Poll', pollSchema);;
+module.exports = mongoose.model( 'Poll', pollSchema );;
