@@ -113,20 +113,30 @@ router.post( '/login', async ( req, res, next ) => {
   }
 });
 
-router.patch( '/polls/:id', async ( req, res ) => {
-  const id = req.params.id;
-  const poll = await Poll.findById( id );
-
-  poll.question = req.body.question;
-  poll.description = req.body.description;
+router.post( '/polls/:id', auth.requireUser, async ( req, res, next ) => {
+  const question = req.body.question;
+  const description = req.body.description;
+  const choiceOne = req.body.choiceOne;
+  const choiceTwo = req.body.choiceTwo;
+  const choiceThree = req.body.choiceThree;
 
   try {
-    await poll.save();
-  } catch ( e ) {
-    return next( e );
+    let id = req.params.id;
+    const data = {
+      question: question,
+      description: description,
+      options: [
+        { text: choiceOne },
+        { text: choiceTwo },
+        { text: choiceThree },
+      ]
+    }
+    await Poll.update( { _id:id }, data );
+    res.redirect( '/' )
+  } catch( e ) {
+    next( e )
   }
 
-  res.status(204).send({});
 });
 
 router.delete( '/polls/:id', async ( req, res ) => {
