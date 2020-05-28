@@ -52,12 +52,12 @@ router.post( '/newPoll', async ( req, res ) => {
   const data = {
     question: question,
     description: description,
-    choices: {
-      choiceOne,
-      choiceTwo,
-      choiceThree
-    },
     user: user,
+    options: [
+          { text: choiceOne },
+          { text: choiceTwo },
+          { text: choiceThree }
+        ]
   };
 
   try {

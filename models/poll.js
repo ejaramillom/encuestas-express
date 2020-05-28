@@ -1,29 +1,30 @@
-const mongoose = require( 'mongoose' )
+const mongoose = require('mongoose');
 
-const VoteSchema = mongoose.Schema({
-  ip: { type: String }
-})
 
-const ChoiceSchema = mongoose.Schema({
-  text: { type: String },
-	votes: [ VoteSchema ]
-})
+const pollSchema = mongoose.Schema({
+  question: String,
+  description: String,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  },
+  options: [{
+    text: String,
+    votes: {
+      type: Number,
+      default: 0 }
+  }]
+});
 
-const PollSchema = mongoose.Schema({
-	user: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User'
-	},
-	question: { type: String, required: true },
-	description: { type: String, required: true },
-	choices: [ ChoiceSchema ]
-})
+pollSchema.methods.totalVotes = function() {
+  return this.options.reduce((sum, o) => sum + o.votes, 0);
+}
 
-PollSchema.methods.truncateDescription = function() {
+pollSchema.methods.truncateDescription = function() {
   if (this.description && this.description.length > 150) {
     return this.description.substring(0, 70) + ' ...';
   }
   return this.description;
 };
 
-module.exports = mongoose.model( 'Poll', PollSchema );
+module.exports = mongoose.model('Poll', pollSchema);;
