@@ -16,12 +16,12 @@ const pollSchema = mongoose.Schema({
 });
 
 pollSchema.methods.totalVotes = function() {
-  return this.options.reduce((sum, o) => sum + o.votes, 0);
+  return this.options.reduce(( sum, o ) => sum + o.votes, 0 );
 }
 
 pollSchema.methods.truncateDescription = function() {
-  if (this.description && this.description.length > 150) {
-    return this.description.substring(0, 70) + ' ...';
+  if ( this.description && this.description.length > 150 ) {
+    return this.description.substring( 0, 70 ) + ' ...';
   }
   return this.description;
 };

@@ -13,14 +13,13 @@ block body
     div( class = 'body-description' ) !{ currentPoll.description || '' }
     div( class = 'body-description' ) Creado por #{ currentPoll.user.email }
 
-  form( action = `/polls/${ currentPoll._id }/vote`, method = 'post' )
-    each option in currentPoll.options
-      div( class = 'body-content' )
-        input( type = "radio" id = `option-${ option._id }` name = "option" value = option._id class = 'radio')
-        label( for = `option-${option._id}` )= option.text
-
-    div( class = 'form-actions')
-      button( type = 'submit', class = 'btn btn-primary' ) Votar!
+  each option in currentPoll.options
+    div( class = 'body-content' )
+      label( for = `option-${ option._id }` )= option.text
+       p #{ option.votes }  Votos
+       - let count = Math.round(( option.votes / currentPoll.totalVotes() ) * 100 );
+       div( style = { background: 'gray', width: count + '%', height: '2em' })
+         span= count + '%'
 
   script.
     var btnDelete = document.querySelector( '.btn-delete' );

@@ -111,6 +111,29 @@ router.get( '/polls/:id/edit', async (req, res, next) => {
   }
 });
 
+router.post( '/polls/:id/vote', async ( req, res, next ) => {
+  try {
+    const optionId = req.body.option;
+    await Poll.update(
+      { '_id': req.params.id, 'options._id' : optionId },
+      { $inc: { 'options.$.votes': 1 } },
+    );
+    res.redirect( `/polls/${ req.params.id }/results` );
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.get( '/polls/:id/results', async ( req, res, next ) => {
+  try{
+    const polls = await Poll.find().populate( 'user' );
+    const poll = await Poll.findById( req.params.id ).populate( 'user' );
+    res.render( 'resultPoll', { polls: polls, currentPoll: poll });
+  } catch (e) {
+    next(e);
+  }
+});
+
 router.post( '/polls/:id', auth.requireUser, async ( req, res, next ) => {
   const question = req.body.question;
   const description = req.body.description;
