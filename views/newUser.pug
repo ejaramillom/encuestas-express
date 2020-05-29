@@ -1,17 +1,18 @@
 extends layout
 
 block content
-  form(action='/register', method='post')
-    div(class='form-group')
-      label(for='name') Nombre
-      input(type='text', id='name', name='name')
-    div(class='form-group')
-      label(for='email') Email
-      input(type='email', id='email', name='email')
-    div(class='form-group')
-      label(for='password') Contraseña
-      input(type='password', id='password', name='password')
-
-    div(class='form-actions')
-      a(href='/login') Login
-      button(type='submit') Registrarse
+  form( action = '/register', method = 'post' )
+    if error
+      div( class = 'error' )= error
+    div( class = 'form-group' )
+      label( for = 'name' ) Nombre
+      input( type = 'text', id = 'name', name = 'name' )
+    div( class = 'form-group' )
+      label( for = 'email' ) Email
+      input( type = 'email', id = 'email', name = 'email' )
+    div( class = 'form-group' )
+      label( for = 'password' ) Contraseña
+      input( type = 'password', id = 'password', name = 'password')
+    div( class = 'form-actions' )
+      a( href = '/login' ) Ingresar
+      button( type = 'submit' ) Registrarse

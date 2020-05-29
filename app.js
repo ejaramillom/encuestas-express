@@ -17,6 +17,6 @@ app.use( cookieParser() );
 
 app.use( express.static(__dirname + '../public'));
 app.use( '/assets', express.static( path.join( __dirname, 'assets' )));
-app.use('/', routes);
+app.use( '/', routes);
 
 app.listen( 3000, () => console.log( 'Corriendo en el puerto 3000 ...' ));

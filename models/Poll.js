@@ -1,8 +1,14 @@
 const mongoose = require('mongoose');
 
 const pollSchema = mongoose.Schema({
-  question: String,
-  description: String,
+  question: {
+    type: String,
+    required: true
+   },
+  description: {
+    type: String,
+    required: true
+   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
@@ -11,7 +17,8 @@ const pollSchema = mongoose.Schema({
     text: String,
     votes: {
       type: Number,
-      default: 0 }
+      default: 0
+    }
   }]
 });
 

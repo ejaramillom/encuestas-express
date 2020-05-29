@@ -127,7 +127,19 @@ a {
   margin-bottom: 20px;
 }
 
-.poll-form-page #choiceOne, #choiceTwo, #choiceThree {
+.poll-form-page #choiceOne {
+  color: #f6f3ee;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.poll-form-page #choiceTwo {
+  color: #f6f3ee;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.poll-form-page #choiceThree {
   color: #f6f3ee;
   font-size: 1.2rem;
   margin-bottom: 20px;

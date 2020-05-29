@@ -16,11 +16,13 @@ block body
   form( action = `/polls/${ currentPoll._id }/vote`, method = 'post' )
     each option in currentPoll.options
       div( class = 'body-content' )
-        input( type = "radio" id = `option-${ option._id }` name = "option" value = option._id class = 'radio')
+        input( type = "radio" id = `option-${ option._id }` name = 'option' value = option._id class = 'radio')
         label( for = `option-${option._id}` )= option.text
 
     div( class = 'form-actions')
       button( type = 'submit', class = 'btn btn-primary' ) Votar!
+      form( action = `/polls/${ currentPoll._id }/results`, method = 'get' )
+        button( type = 'submit', class = 'btn btn-primary' ) Ver resultados
 
   script.
     var btnDelete = document.querySelector( '.btn-delete' );

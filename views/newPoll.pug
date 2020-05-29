@@ -2,24 +2,22 @@ extends layout
 
 block content
   form( action = '/newPoll', method = 'post' )
-    div
+    if error
+      div( class = 'error' )= error
+    div( class = 'form-group' )
       label( for = 'question' ) Pregunta:
-      input( type = 'text' name = 'question' id ='question' )
-    br
-    div
+      input( type = 'text', name = 'question', id ='question' )
+    div( class = 'form-group' )
       label( for = 'description' ) Descripción:
-      input( type = 'text' name = 'description' id='description')
-    br
-    div
+      input( type = 'text', name = 'description', id='description')
+    div( class = 'form-group' )
       label( for = 'choiceOne' ) Opcion 1:
-      input( type = 'text' name = 'choiceOne' id ='choiceOne' )
-    br
-    div
+      input( type = 'text', name = 'choiceOne', id ='choiceOne' )
+    div( class = 'form-group' )
       label( for = 'choiceTwo' ) Opcion 2:
-      input( type = 'text' name = 'choiceTwo' id = 'choiceTwo' )
-    br
-    div
+      input( type = 'text', name = 'choiceTwo', id = 'choiceTwo' )
+    div( class = 'form-group' )
       label( for = 'choiceThree' ) Opcion 3:
-      input( type = 'text' name = 'choiceThree' id = 'choiceThree' )
-    br
-    button( type = 'submit' ) Crear encuesta!
+      input( type = 'text', name = 'choiceThree', id = 'choiceThree' )
+    div( class = 'form-actions' )
+      button( type = 'submit' ) Crear encuesta!

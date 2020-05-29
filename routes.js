@@ -49,6 +49,7 @@ router.post( '/register', async ( req, res ) => {
     const user = await User.create( data );
   } catch ( e ) {
     console.error( e );
+    res.render( 'newUser', { error: 'No debe dejar datos vacios. Intentalo de nuevo!' });
   }
   res.redirect( '/' );
 });
@@ -87,9 +88,10 @@ router.post( '/newPoll', async ( req, res ) => {
   };
 
   try {
-    const poll = await Poll.create( data ).populate( 'user' );
+    const poll = await Poll.create( data );
   } catch ( e ) {
     console.error( e );
+    res.render( 'newPoll', { error: 'No debe dejar datos vacios!' });
   }
   res.redirect( '/' );
 });
