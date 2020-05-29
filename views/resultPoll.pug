@@ -9,7 +9,8 @@ block body
         i( class = 'far fa-trash-alt' )
       a( href = `https://twitter.com/intent/tweet?text=mira%20esta%20encuesta! ` + currentPath, class = 'twitter-share-button')
         i( class = 'fab fa-twitter pr-1' )
-        link( href = '/polls/${ currentPoll._id }/results', rel = 'canonical'  )
+      a( href = `https://www.facebook.com/sharer/sharer.php` + currentPath, class = 'fb-share-button' )
+        i( class = 'fab fa-facebook' )
 
   div( class = 'body-content' )
     h1( class = 'body-question' )= currentPoll.question
@@ -28,12 +29,21 @@ block body
     var btnDelete = document.querySelector( '.btn-delete' );
     btnDelete.addEventListener( 'click', function( e ) {
       e.preventDefault();
-
-      if ( confirm( 'Está seguro de borrar la encuesta?' )) {
-        fetch( '/polls/#{ currentPoll._id }', {
-          method: 'DELETE'
-        }).then( response => {
-          window.location = '/';
-        });
-      }
+        if ( confirm( 'Está seguro de borrar la encuesta?' )) {
+          fetch( '/polls/#{ currentPoll._id }', {
+            method: 'DELETE'
+          }).then( response => {
+            window.location = '/';
+          });
+        }
     });
+
+  div( id = 'fb-root' )
+    script.
+      (function( d, s, id ) {
+        var js, fjs = d.getElementsByTagName( s )[0];
+        if ( d.getElementById( id )) return;
+        js = d.createElement( s ); js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0';
+        fjs.parentNode.insertBefore( js, fjs );
+      }( document, 'script', 'facebook-jssdk' ));
