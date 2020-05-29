@@ -128,7 +128,8 @@ router.get( '/polls/:id/results', async ( req, res, next ) => {
   try{
     const polls = await Poll.find().populate( 'user' );
     const poll = await Poll.findById( req.params.id ).populate( 'user' );
-    res.render( 'resultPoll', { polls: polls, currentPoll: poll });
+    const path = ( req.protocol + '://' + req.get( 'host' ) + '/polls/' + poll._id );
+    res.render( 'resultPoll', { polls: polls, currentPoll: poll, currentPath: path });
   } catch (e) {
     next(e);
   }

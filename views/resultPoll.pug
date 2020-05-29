@@ -7,6 +7,9 @@ block body
         i( class = 'far fa-edit' )
       a( href = `/polls/${ currentPoll._id }/delete`, class = 'btn-delete' )
         i( class = 'far fa-trash-alt' )
+      a( href = `https://twitter.com/intent/tweet?text=mira%20esta%20encuesta! ` + currentPath, class = 'twitter-share-button')
+        i( class = 'fab fa-twitter pr-1' )
+        link( href = '/polls/${ currentPoll._id }/results', rel = 'canonical'  )
 
   div( class = 'body-content' )
     h1( class = 'body-question' )= currentPoll.question
