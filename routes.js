@@ -52,6 +52,7 @@ router.post( '/register', async ( req, res ) => {
     console.error( e );
     res.render( 'newUser', { error: 'No debe dejar datos vacios. Intentalo de nuevo!' });
   }
+  req.flash( 'success', 'Se creó usuario correctamente!' );
   res.redirect( '/' );
 });
 
@@ -91,9 +92,9 @@ router.post( '/newPoll', async ( req, res ) => {
   try {
     const poll = await Poll.create( data );
   } catch ( e ) {
-    console.error( e );
     res.render( 'newPoll', { error: 'No debe dejar datos vacios!' });
   }
+  req.flash( 'success', 'Se creó encuesta correctamente!' );
   res.redirect( '/' );
 });
 
@@ -171,7 +172,8 @@ router.delete( '/polls/:id', async ( req, res ) => {
 
 router.get( '/logout', auth.requireUser, ( req, res ) => {
   res.clearCookie( 'token' );
-  res.redirect( '/login' );
+  req.flash( 'success', 'Has salido correctamente!' );
+  res.redirect( '/' );
 });
 
 module.exports = router;
