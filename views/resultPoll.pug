@@ -12,18 +12,22 @@ block body
       a( href = `https://www.facebook.com/sharer/sharer.php` + currentPath, class = 'fb-share-button' )
         i( class = 'fab fa-facebook' )
 
-  div( class = 'body-content' )
-    h1( class = 'body-question' )= currentPoll.question
-    div( class = 'body-description' ) !{ currentPoll.description || '' }
-    div( class = 'body-description' ) Creado por #{ currentPoll.user.email }
-
-  each option in currentPoll.options
+  div( class = 'poll-form-page')
     div( class = 'body-content' )
-      label( for = `option-${ option._id }` )= option.text
-       p #{ option.votes }  Votos
-       - let count = Math.round(( option.votes / currentPoll.totalVotes() ) * 100 );
-       div( style = { background: 'gray', width: count + '%', height: '2em' })
-         span= count + '%'
+      h1( class = 'body-question' )= currentPoll.question
+      div( class = 'body-description' ) !{ currentPoll.description || '' }
+      div( class = 'body-description' ) Creado por #{ currentPoll.user.email }
+
+    each option in currentPoll.options
+      div( class = 'body-content' )
+        label( for = `option-${ option._id }` )= option.text
+          p #{ option.votes }  Votos
+          - let count = Math.round(( option.votes / currentPoll.totalVotes() ) * 100 );
+          div( style = { background: 'gray', width: count + '%', height: '2em' })
+            if count > 0
+              span= count + '%'
+            else
+              span= 0 + '%'
 
   script.
     var btnDelete = document.querySelector( '.btn-delete' );

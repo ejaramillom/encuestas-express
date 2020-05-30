@@ -21,6 +21,7 @@ router.post( '/login', async ( req, res, next ) => {
     if ( user ) {
       const token = jwt.sign({ userId: user._id }, 'secretcode' );
       res.cookie( 'token', token, { expires: new Date( Date.now() + 24*60*60*1000 ), httpOnly: true });
+      req.flash( 'success', 'Ingresó correctamente!' );
       return res.redirect( '/' );
     } else {
       res.render( 'login', { error: 'Correo o constraseña incorrecto. Intentalo de nuevo!' });

@@ -8,21 +8,24 @@ block body
       a( href = `/polls/${ currentPoll._id }/delete`, class = 'btn-delete' )
         i( class = 'far fa-trash-alt' )
 
-  div( class = 'body-content' )
-    h1( class = 'body-question' )= currentPoll.question
-    div( class = 'body-description' ) !{ currentPoll.description || '' }
-    div( class = 'body-description' ) Creado por #{ currentPoll.user.email }
+  div( class = 'poll-form-page')
 
-  form( action = `/polls/${ currentPoll._id }/vote`, method = 'post' )
-    each option in currentPoll.options
-      div( class = 'body-content' )
-        input( type = "radio" id = `option-${ option._id }` name = 'option' value = option._id class = 'radio')
-        label( for = `option-${option._id}` )= option.text
+    div( class = 'body-content' )
+      h1( class = 'body-question' )= currentPoll.question
+      div( class = 'body-description' ) !{ currentPoll.description || '' }
+      div( class = 'body-description' ) Creado por #{ currentPoll.user.email }
 
-    div( class = 'form-actions')
-      button( type = 'submit', class = 'btn btn-primary' ) Votar!
-      form( action = `/polls/${ currentPoll._id }/results`, method = 'get' )
-        button( type = 'submit', class = 'btn btn-primary' ) Ver resultados
+    form( action = `/polls/${ currentPoll._id }/vote`, method = 'post' )
+      each option in currentPoll.options
+        div( class = 'body-content' )
+          input( type = "radio" id = `option-${ option._id }` name = 'option' value = option._id class = 'radio')
+          label( for = `option-${option._id}` )= option.text
+
+      div( class = 'form-actions' )
+        button( type = 'submit', class = 'btn btn-primary' ) Votar!
+        form( action = `/polls/${ currentPoll._id }/results`, method = 'get' )
+          if user && user._id.equals( currentPoll.user._id )
+            button( type = 'submit', class = 'btn btn-primary' ) Ver resultados
 
   script.
     var btnDelete = document.querySelector( '.btn-delete' );

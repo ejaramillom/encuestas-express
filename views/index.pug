@@ -22,10 +22,17 @@ block content
             | Salir
             |
 
+      if polls.length == 0
+        div( class = 'error' )
+          h4= 'No existe ninguna encuesta! '
+
       each poll in polls
         a( href = '/polls/' + poll._id class = 'poll' + ( currentPoll && currentPoll._id.equals( poll._id ) ? ' active' : ''))
           div( class = 'poll-question' )= poll.question
           div( class = 'poll-description' )= poll.truncateDescription()
+
+      if locals.message
+        div( class = 'success' )= message.success
 
     div( class = 'body' )
       block body
