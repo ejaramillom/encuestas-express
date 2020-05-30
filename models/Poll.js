@@ -14,7 +14,10 @@ const pollSchema = mongoose.Schema({
     ref: 'User'
   },
   options: [{
-    text: String,
+    text: {
+      type: String,
+      required: true
+    },
     votes: {
       type: Number,
       default: 0
