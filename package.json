@@ -2,14 +2,22 @@
   "name": "encuestas-express",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "start": "node server.js",
     "test": "MONGODB_URI=mongodb://localhost:27017/encuestas jest --forceExit"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ejaramillom/encuestas-express.git"
+  },
   "keywords": [],
   "author": "Emmanuel Jaramillo Muñoz",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ejaramillom/encuestas-express/issues"
+  },
+  "homepage": "https://github.com/ejaramillom/encuestas-express#readme",
   "dependencies": {
     "bcrypt": "^4.0.1",
     "connect-flash": "^0.1.1",
