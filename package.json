@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
     "test": "MONGODB_URI=mongodb://localhost:27017/encuestas jest --forceExit"
   },
   "keywords": [],
-  "author": "",
+  "author": "Emmanuel Jaramillo Muñoz",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^4.0.1",
@@ -19,6 +20,9 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.16",
     "pug": "^2.0.4"
+  },
+  "engines": {
+        "node": "v13.1.0"
   },
   "devDependencies": {
     "jest": "^26.0.1",

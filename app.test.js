@@ -15,6 +15,7 @@ let page;
 let browser;
 beforeAll(async () => {
   server = app.listen( 3000 );
+
   browser = await puppeteer.launch({
     headless: true,
     args: [ `--window-size=1920,1080` ]
@@ -29,7 +30,9 @@ beforeEach( async () => {
 });
 
 afterAll(async () => {
+  server.close();
   await mongoose.disconnect();
+  browser.close();
 });
 
 describe( '/', () => {
@@ -68,8 +71,8 @@ describe( 'GET /newPoll', () => {
     expect( response.headers.location ).toBe( '/login' );
   });
 
-  test( 'responde afirmativo si se autentia el usuario', async () => {
-    const credentials = { email: 'usuario@ghotmail.com', password: 'usuario', name: 'usuario' };
+  test( 'responde afirmativo si se autentica el usuario', async () => {
+    const credentials = { email: 'usuario@hotmail.com', password: 'usuario', name: 'usuario' };
     const user = await User.create( credentials );
     const agent = await signIn( credentials );
     const response = await agent.get( '/' );
@@ -78,24 +81,19 @@ describe( 'GET /newPoll', () => {
 });
 
 test( 'usuario se puede registrar e ingresar', async () => {
-  const nav = page.waitForNavigation();
-
-  await page.goto( 'http://localhost:3000/' );
-  await page.click( 'a[ href = "/login" ]' );
-  await nav;
+  await page.goto( "http://localhost:3000/login" );
   await page.click( 'a[ href = "/register" ]' );
-
-  // registrarse
   await page.waitFor( 'input[ id = email ]' );
-  await page.type( 'input[ id = email ]', 'pedro@gmail.com' );
-  await page.type( 'input[ id = password ]', 'test1234' );
-  await page.click( 'button[ type = submit ]' );
-  await nav;
+  await page.type( 'input[ id = email ]', 'nuevousuario@gmail.com' );
+  await page.type( 'input[ id = password ]', 'testusuario' );
+  await page.type( 'input[ id = name ]', 'nuevousuario' );
+  await page.click( 'button[ type = submit ]');
+  await page.waitForNavigation();
 
-  // login
   expect( page.url()).toBe( '/' );
-  await page.type( 'input[id=email]', 'pedro@gmail.com' );
-  await page.type( 'input[id=password]', 'test1234' );
+  await page.click( 'a[ href = "/login" ]' );
+  await page.type( 'input[ id = email ]', 'nuevousuario@gmail.com' );
+  await page.type( 'input[ id = password ]', 'testusuario' );
+  await page.click( 'button[ type = submit ]');
 
-  expect(page.url()).toBe("/");
 });

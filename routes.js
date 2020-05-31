@@ -52,8 +52,8 @@ router.post( '/register', async ( req, res ) => {
     console.error( e );
     res.render( 'newUser', { error: 'No debe dejar datos vacios. Intentalo de nuevo!' });
   }
-  req.flash( 'success', 'Se creó usuario correctamente!' );
-  res.redirect( '/' );
+  req.flash( 'success', 'Se creó usuario correctamente! ahora puede ingresar' );
+  res.render( '/' );
 });
 
 router.get( '/', async ( req, res, next ) => {
