@@ -22,7 +22,7 @@
     "pug": "^2.0.4"
   },
   "engines": {
-        "node": "v13.1.0"
+    "node": "v13.1.0"
   },
   "devDependencies": {
     "jest": "^26.0.1",
