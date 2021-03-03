@@ -29,7 +29,7 @@
     "flash": "^1.1.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.16",
-    "pug": "^2.0.4"
+    "pug": "^3.0.1"
   },
   "engines": {
     "node": "v13.1.0"
